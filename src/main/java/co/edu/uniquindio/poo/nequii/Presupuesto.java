@@ -28,8 +28,40 @@ public class Presupuesto {
     }
 
     public void setEstado(EstadoPresupuesto estado) {
+
         this.estado = estado;
     }
 
-    // Getters y setters...
+    public void setMontoGastado(double montoGastado) {
+        this.montoGastado = montoGastado;
+    }
+
+    public String getIdPresupuesto() {
+        return idPresupuesto;
+    }
+
+    public void setIdPresupuesto(String idPresupuesto) {
+        this.idPresupuesto = idPresupuesto;
+    }
+
+    public double getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(double montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+    public double getMontoGastado() {
+        return montoGastado;
+    }
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
+    public EstadoPresupuesto getEstado() {
+        return estado;
+    }
+
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
 }
