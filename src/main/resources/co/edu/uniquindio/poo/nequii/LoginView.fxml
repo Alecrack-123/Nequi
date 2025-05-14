@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.effect.DropShadow?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.poo.nequii.LoginController"
+      style="-fx-background-color: linear-gradient(to bottom right, #6366F1, #A855F7);">
+    <padding>
+        <Insets bottom="40.0" left="40.0" right="40.0" top="40.0"/>
+    </padding>
+
+    <VBox alignment="CENTER" maxWidth="400" spacing="15.0" 
+          style="-fx-background-color: white; -fx-background-radius: 10;">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+        </padding>
+        <effect>
+            <DropShadow radius="10.0" color="#00000033"/>
+        </effect>
+
+        <!-- Logo -->
+        <ImageView fx:id="logoImage" fitHeight="150.0" fitWidth="900.0" preserveRatio="true">
+            <Image url="@images/Logo.jpg"/>
+        </ImageView>
+
+        <!-- Título -->
+        <Label text="Bienvenido a Nequi"
+               style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #4F46E5;"/>
+
+        <!-- Selector de tipo de usuario -->
+        <ComboBox fx:id="userTypeCombo" maxWidth="Infinity" prefHeight="40.0"
+                  style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #E5E7EB; -fx-border-width: 1; -fx-padding: 8;">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Usuario"/>
+                    <String fx:value="Administrador"/>
+                </FXCollections>
+            </items>
+            <value>
+                <String fx:value="Usuario"/>
+            </value>
+        </ComboBox>
+
+        <!-- Campo de usuario -->
+        <TextField fx:id="usernameField" promptText="Correo electrónico" prefHeight="40.0"
+                  style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #E5E7EB; -fx-border-width: 1; -fx-padding: 8;"/>
+
+        <!-- Campo de contraseña -->
+        <PasswordField fx:id="passwordField" promptText="Contraseña" prefHeight="40.0"
+                      style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #E5E7EB; -fx-border-width: 1; -fx-padding: 8;"/>
+
+        <!-- Contenedor de opciones -->
+        <HBox alignment="CENTER">
+            <CheckBox fx:id="rememberMeCheckbox" text="Recordar sesión" 
+                     style="-fx-text-fill: #374151;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Hyperlink fx:id="forgotPasswordLink" text="¿Olvidaste tu contraseña?" 
+                      style="-fx-text-fill: #4F46E5; -fx-border-color: transparent;"/>
+        </HBox>
+
+        <!-- Botón de inicio de sesión -->
+        <Button fx:id="loginButton" text="Iniciar Sesión" maxWidth="Infinity" prefHeight="40.0"
+                style="-fx-background-color: #4F46E5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;">
+            <VBox.margin>
+                <Insets top="10.0"/>
+            </VBox.margin>
+        </Button>
+
+        <!-- Contenedor de registro -->
+        <HBox alignment="CENTER" spacing="5.0">
+            <Label text="¿No tienes una cuenta?"/>
+            <Hyperlink fx:id="signUpLink" text="Regístrate" 
+                      style="-fx-text-fill: #4F46E5; -fx-border-color: transparent;"/>
+        </HBox>
+    </VBox>
+</VBox>
