@@ -3,6 +3,7 @@ package co.edu.uniquindio.poo.nequii;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Transaccion {
     private String idTransaccion;
@@ -15,6 +16,12 @@ public class Transaccion {
     private Categoria categoria;
     private EstrategiaTransaccion estrategia;
     private static List<Transaccion> transacciones = new ArrayList<>();
+
+    private static final Map<TipoTransaccion, EstrategiaTransaccion> estrategias = Map.of(
+            TipoTransaccion.DEPOSITO, new EstrategiaDeposito(),
+            TipoTransaccion.RETIRO, new EstrategiaRetiro(),
+            TipoTransaccion.TRANSFERENCIA, new EstrategiaTransferencia()
+    );
 
     public enum TipoTransaccion {
         DEPOSITO("Depósito"),
@@ -50,15 +57,46 @@ public class Transaccion {
         this.cuentaDestino = cuentaDestino;
         this.categoria = categoria;
         this.estrategia = obtenerEstrategiaPorTipo(tipo);
+    }
 
+    /**
+     * Constructor simplificado para la clase Transaccion
+     * @param tipo Tipo de transacción
+     * @param monto Monto de la transacción
+     * @param descripcion Descripción de la transacción
+     */
+    public Transaccion(TipoTransaccion tipo, double monto, String descripcion) {
+        this.idTransaccion = "TRANS-" + System.currentTimeMillis();
+        this.fecha = LocalDate.now();
+        this.tipo = tipo;
+        this.monto = monto;
+        this.descripcion = descripcion;
+        this.estrategia = obtenerEstrategiaPorTipo(tipo);
+    }
+
+    /**
+     * Constructor simplificado para la clase Transaccion desde una categoría con tipo definido
+     * @param tipo Tipo de transacción (DEPOSITO, RETIRO, etc.)
+     * @param monto Monto de la transacción
+     * @param descripcion Descripción de la transacción
+     * @param categoria Categoría de la transacción
+     */
+    public Transaccion(TipoTransaccion tipo, double monto, String descripcion, Categoria categoria) {
+        this.idTransaccion = "TRANS-" + System.currentTimeMillis();
+        this.fecha = LocalDate.now();
+        this.tipo = tipo;
+        this.monto = monto;
+        this.descripcion = descripcion;
+        this.categoria = categoria;
+        this.estrategia = obtenerEstrategiaPorTipo(tipo);
     }
 
     private EstrategiaTransaccion obtenerEstrategiaPorTipo(TipoTransaccion tipo) {
-        return switch (tipo) {
-            case DEPOSITO -> new EstrategiaDeposito();
-            case RETIRO -> new EstrategiaRetiro();
-            case TRANSFERENCIA -> new EstrategiaTransferencia();
-        };
+        EstrategiaTransaccion estrategia = estrategias.get(tipo);
+        if (estrategia == null) {
+            throw new IllegalArgumentException("Estrategia no definida para tipo: " + tipo);
+        }
+        return estrategia;
     }
 
     /**
@@ -169,6 +207,24 @@ public class Transaccion {
 
     public Categoria getCategoria() {
         return categoria;
+    }
+
+    /**
+     * Establece la categoría de la transacción
+     * @param categoria Nueva categoría
+     */
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    /**
+     * Establece la categoría de la transacción por nombre (si usas objeto Categoria,
+     * considera eliminar o modificar este método)
+     * @param categoriaNombre Nombre de la categoría
+     */
+    public void setCategoria(String categoriaNombre) {
+        Categoria nuevaCategoria = new Categoria("CAT-" + System.currentTimeMillis(), categoriaNombre, 0);
+        this.categoria = nuevaCategoria;
     }
 
     public static List<Transaccion> getTransacciones() {

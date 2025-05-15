@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo.nequii;
 
 import java.util.ArrayList;
 import java.util.List;
+import co.edu.uniquindio.poo.nequii.Transaccion.TipoTransaccion;
 
 public class Usuario {
     private String idUsuario;
@@ -11,9 +12,10 @@ public class Usuario {
     private String direccion;
     private String contrasena;
     private double saldoTotal;
-    private List<CuentaBancaria> cuentasBancarias;
+    private List<Cuenta> cuentasBancarias;
     private List<Transaccion> transacciones;
     private List<Presupuesto> presupuestos;
+    private TipoCuenta tipoCuenta;
 
     // Constructor
     public Usuario(String idUsuario, String nombreCompleto, String correoElectronico, 
@@ -86,11 +88,11 @@ public class Usuario {
         this.saldoTotal = saldoTotal;
     }
 
-    public List<CuentaBancaria> getCuentasBancarias() {
+    public List<Cuenta> getCuentasBancarias() {
         return cuentasBancarias;
     }
 
-    public void setCuentasBancarias(List<CuentaBancaria> cuentasBancarias) {
+    public void setCuentasBancarias(List<Cuenta> cuentasBancarias) {
         this.cuentasBancarias = cuentasBancarias;
     }
 
@@ -125,7 +127,7 @@ public class Usuario {
     // RF-003: Gestión de dinero
     public void agregarDinero(double monto) {
         this.saldoTotal += monto;
-        registrarTransaccion(new Transaccion(TipoTransaccion.INGRESO, monto, "Ingreso de dinero"));
+        registrarTransaccion(new Transaccion(TipoTransaccion.DEPOSITO, monto, "Ingreso de dinero"));
     }
 
     public boolean retirarDinero(double monto) {
@@ -157,7 +159,7 @@ public class Usuario {
         presupuestos.stream()
             .filter(p -> p.getIdPresupuesto().equals(idPresupuesto))
             .findFirst()
-            .ifPresent(p -> p.setMontoLimite(nuevoMonto));
+            .ifPresent(p -> p.setMontoTotal(nuevoMonto));
     }
 
     public void eliminarPresupuesto(String idPresupuesto) {
@@ -177,7 +179,7 @@ public class Usuario {
     }
 
     // RF-006: Gestión de cuentas bancarias
-    public void agregarCuentaBancaria(CuentaBancaria cuenta) {
+    public void agregarCuentaBancaria(Cuenta cuenta) {
         this.cuentasBancarias.add(cuenta);
     }
 

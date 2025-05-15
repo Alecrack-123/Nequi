@@ -42,7 +42,7 @@ public class CuentaController {
         columnaNumeroCuenta.setCellValueFactory(new PropertyValueFactory<>("numeroCuenta"));
         columnaTipoCuenta.setCellValueFactory(new PropertyValueFactory<>("tipoCuenta"));
         columnaUsuario.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getUsuario().getNombre()));
+                new SimpleStringProperty(cellData.getValue().getUsuario().getNombreCompleto()));
         columnaSaldo.setCellValueFactory(new PropertyValueFactory<>("saldo"));
 
         // Configurar la tabla

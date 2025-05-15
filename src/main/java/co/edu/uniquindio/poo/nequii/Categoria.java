@@ -12,6 +12,7 @@ public class Categoria {
     private double presupuestoAsignado;
     private double gastoActual;
     private List<Transaccion> transacciones;
+    private static List<Categoria> listaCategorias = new ArrayList<>();
 
     public Categoria(String id, String nombre, double presupuesto) {
         this.idCategoria = id;
@@ -43,18 +44,12 @@ public class Categoria {
         return nuevaCategoria;
     }
     
-    /**
-     * Asigna una transacción a esta categoría
-     * @param monto Monto de la transacción
-     * @param descripcion Descripción de la transacción
-     * @return La transacción creada
-     */
-    public Transaccion asignarTransaccion(double monto, String descripcion) {
-        Transaccion nuevaTransaccion = new Transaccion(monto, descripcion, this);
-        transacciones.add(nuevaTransaccion);
-        actualizarGasto(monto);
-        return nuevaTransaccion;
-    }
+public Transaccion asignarTransaccion(Transaccion.TipoTransaccion tipo, double monto, String descripcion) {
+    Transaccion nuevaTransaccion = new Transaccion(tipo, monto, descripcion, this);
+    transacciones.add(nuevaTransaccion);
+    actualizarGasto(monto);
+    return nuevaTransaccion;
+}
     
     /**
      * Actualiza los datos de la categoría
@@ -176,4 +171,11 @@ public class Categoria {
     }
     
 
+public static List<Categoria> getCategorias() {
+    return listaCategorias;
+}
+
+public static void agregarCategoria(Categoria categoria) {
+    listaCategorias.add(categoria);
+}
 }

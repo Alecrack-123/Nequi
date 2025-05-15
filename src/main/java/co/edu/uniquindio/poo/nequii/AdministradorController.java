@@ -1,6 +1,6 @@
-package co.edu.uniquindio.poo.nequii.controller;
+package co.edu.uniquindio.poo.nequii;
 
-import co.edu.uniquindio.poo.nequii.*;
+
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
@@ -91,7 +91,7 @@ public class AdministradorController {
         Usuario usuarioSeleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
         if (usuarioSeleccionado != null && !numeroCuentaField.getText().isEmpty()) {
             try {
-                CuentaBancaria cuenta = new CuentaBancaria(numeroCuentaField.getText());
+                Cuenta cuenta = new Cuenta(numeroCuentaField.getText());
                 administrador.agregarCuenta(usuarioSeleccionado.getIdUsuario(), cuenta);
                 actualizarInterfaz();
                 mostrarMensaje("Cuenta agregada exitosamente", Alert.AlertType.INFORMATION);

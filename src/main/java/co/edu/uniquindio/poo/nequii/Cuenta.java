@@ -35,6 +35,8 @@ public class Cuenta {
         this.saldo = saldo;
     }
 
+
+
     /**
      * Valida los parámetros del constructor
      */
@@ -231,7 +233,7 @@ public class Cuenta {
                 ", banco='" + banco + '\'' +
                 ", numeroCuenta='" + numeroCuenta + '\'' +
                 ", tipo=" + tipoCuenta +
-                ", usuario=" + usuario.getNombre() +
+                ", usuario=" + usuario.getNombreCompleto() +
                 ", saldo=" + saldo +
                 '}';
     }
@@ -263,5 +265,3 @@ public class Cuenta {
         }
     }
 }
-
-

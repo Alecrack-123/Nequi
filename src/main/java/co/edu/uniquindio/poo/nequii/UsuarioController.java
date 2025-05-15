@@ -7,9 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.scene.layout.VBox;
 
 public class UsuarioController {
-    
+
     private Usuario usuario;
-    
+
     @FXML private Label saldoLabel;
     @FXML private TextField montoField;
     @FXML private TextField destinatarioField;
@@ -18,10 +18,19 @@ public class UsuarioController {
     @FXML private TextField telefonoField;
     @FXML private TextField categoriaField;
     @FXML private TextField numeroCuentaField;
+    @FXML private TextField bancoField; // nuevo campo para banco
+    @FXML private ComboBox<TipoCuenta> tipoCuentaComboBox; // selector para tipo cuenta
+    @FXML private PasswordField passwordField;
     @FXML private ListView<Transaccion> listaTransacciones;
     @FXML private ListView<Presupuesto> listaPresupuestos;
-    @FXML private ListView<CuentaBancaria> listaCuentas;
-    
+    @FXML private ListView<Cuenta> listaCuentas;
+
+    @FXML
+    public void initialize() {
+        // Inicializar el combo box con los valores del enum TipoCuenta
+        tipoCuentaComboBox.setItems(FXCollections.observableArrayList(TipoCuenta.values()));
+    }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
         actualizarInterfaz();
@@ -32,7 +41,7 @@ public class UsuarioController {
     private void autenticar() {
         String correo = correoField.getText();
         String contrasena = passwordField.getText();
-        
+
         if (usuario.autenticar(correo, contrasena)) {
             mostrarMensaje("Autenticación exitosa", Alert.AlertType.INFORMATION);
             // Aquí se podría mostrar la vista principal
@@ -105,7 +114,8 @@ public class UsuarioController {
         try {
             double monto = Double.parseDouble(montoField.getText());
             String idPresupuesto = "PRES-" + System.currentTimeMillis();
-            Presupuesto presupuesto = new Presupuesto(idPresupuesto, "Nuevo Presupuesto", monto);
+            Presupuesto presupuesto = new Presupuesto(idPresupuesto, monto);
+            presupuesto.setNombre("Nuevo Presupuesto");
             usuario.crearPresupuesto(presupuesto);
             actualizarInterfaz();
             mostrarMensaje("Presupuesto creado exitosamente", Alert.AlertType.INFORMATION);
@@ -161,7 +171,29 @@ public class UsuarioController {
     @FXML
     private void agregarCuentaBancaria() {
         try {
-            CuentaBancaria cuenta = new CuentaBancaria(numeroCuentaField.getText());
+            TipoCuenta tipoSeleccionado = tipoCuentaComboBox.getValue();
+            if (tipoSeleccionado == null) {
+                mostrarMensaje("Por favor seleccione un tipo de cuenta", Alert.AlertType.WARNING);
+                return;
+            }
+
+            String idCuenta = "ID-" + System.currentTimeMillis();
+            String banco = bancoField.getText(); // ahora se lee desde el campo banco
+            String numeroCuenta = numeroCuentaField.getText();
+            double saldoInicial = 0.0;
+
+            if (banco == null || banco.trim().isEmpty()) {
+                mostrarMensaje("Por favor ingrese el nombre del banco", Alert.AlertType.WARNING);
+                return;
+            }
+
+            if (numeroCuenta == null || numeroCuenta.trim().isEmpty()) {
+                mostrarMensaje("Por favor ingrese el número de cuenta", Alert.AlertType.WARNING);
+                return;
+            }
+
+            Cuenta cuenta = new Cuenta(idCuenta, banco, numeroCuenta, tipoSeleccionado, usuario, saldoInicial);
+
             usuario.agregarCuentaBancaria(cuenta);
             actualizarInterfaz();
             mostrarMensaje("Cuenta bancaria agregada exitosamente", Alert.AlertType.INFORMATION);
@@ -172,7 +204,7 @@ public class UsuarioController {
 
     @FXML
     private void eliminarCuentaBancaria() {
-        CuentaBancaria cuentaSeleccionada = listaCuentas.getSelectionModel().getSelectedItem();
+        Cuenta cuentaSeleccionada = listaCuentas.getSelectionModel().getSelectedItem();
         if (cuentaSeleccionada != null) {
             usuario.eliminarCuentaBancaria(cuentaSeleccionada.getNumeroCuenta());
             actualizarInterfaz();
