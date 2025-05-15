@@ -8,10 +8,10 @@ public class EstrategiaTransferencia implements EstrategiaTransaccion {
         Cuenta destino = transaccion.getCuentaDestino();
 
         if (origen == null || destino == null) {
-            throw new IllegalArgumentException("Cuentas origen y destino requeridas para transferencia.");
+            throw new IllegalArgumentException("cuentas origen y destino requeridas para transferencia.");
         }
         if (origen == destino) {
-            throw new IllegalArgumentException("Las cuentas no pueden ser la misma.");
+            throw new IllegalArgumentException("La cuentas tienen que ser distintas.");
         }
         origen.retirar(transaccion.getMonto());
         destino.depositar(transaccion.getMonto());

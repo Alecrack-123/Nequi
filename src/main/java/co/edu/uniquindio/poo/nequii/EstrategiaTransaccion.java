@@ -1,5 +1,5 @@
 package co.edu.uniquindio.poo.nequii;
 
 public interface EstrategiaTransaccion {
-    void ejecutar(Transaccion transaccion);
+    public void ejecutar(Transaccion transaccion);
 }

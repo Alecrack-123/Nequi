@@ -185,7 +185,7 @@ public class Transaccion {
                 ", descripcion='" + descripcion + '\'' +
                 ", cuentaOrigen=" + (cuentaOrigen != null ? cuentaOrigen.getIdCuenta() : "N/A") +
                 ", cuentaDestino=" + (cuentaDestino != null ? cuentaDestino.getIdCuenta() : "N/A") +
-                ", categoria=" + categoria.getNombre() +
+                ", categoria=" + (categoria != null ? categoria.getNombre() : "N/A") +
                 '}';
     }
 }
