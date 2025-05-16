@@ -66,6 +66,7 @@ public class PresupuestoController implements Initializable {
     
     // Componentes para transacciones
     @FXML private ComboBox<Categoria> cmbCategoria;
+    @FXML private ComboBox<Transaccion.TipoTransaccion> cmbTipoTransaccion;
     @FXML private TextField txtMontoGasto;
     @FXML private TextArea txtDescripcionGasto;
     @FXML private Button btnRegistrarGasto;
@@ -706,6 +707,7 @@ public class PresupuestoController implements Initializable {
             Categoria categoriaSeleccionada = cmbCategoria.getValue();
             double montoGasto = Double.parseDouble(txtMontoGasto.getText());
             String descripcionGasto = txtDescripcionGasto != null ? txtDescripcionGasto.getText() : "";
+            Transaccion.TipoTransaccion tipoSeleccionado = cmbTipoTransaccion.getValue();
             
             if (categoriaSeleccionada == null) {
                 mostrarError("Seleccione una categoría");
@@ -713,7 +715,7 @@ public class PresupuestoController implements Initializable {
             }
             
             // Registrar la transacción y actualizar el gasto
-            categoriaSeleccionada.asignarTransaccion(montoGasto, descripcionGasto);
+            categoriaSeleccionada.asignarTransaccion(tipoSeleccionado, montoGasto, descripcionGasto);
             presupuestoActual.calcularGastoPorCategoria();
             
             // Actualizar la vista

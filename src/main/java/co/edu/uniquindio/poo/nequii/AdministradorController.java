@@ -133,7 +133,7 @@ public class AdministradorController {
     private void actualizarEstadisticas() {
         // Actualizar gráfica de gastos comunes
         Map<String, Double> gastosComunes = administrador.obtenerGastosComunes();
-        actualizarGraficaGastos(gastosComunes);
+        actualizarGraficaGastos();
 
         // Mostrar usuarios con más transacciones
         List<Usuario> usuariosTop = administrador.obtenerUsuariosConMasTransacciones();
@@ -255,7 +255,7 @@ public class AdministradorController {
             
             // Calcular gastos mensuales
             double gastosMensuales = usuario.consultarTransacciones().stream()
-                .filter(t -> t.getTipo() == TipoTransaccion.RETIRO)
+                .filter(t -> t.getTipo() == Transaccion.TipoTransaccion.RETIRO)
                 .mapToDouble(Transaccion::getMonto)
                 .sum();
                 
@@ -353,6 +353,11 @@ public class AdministradorController {
             ))
         );
         graficaTransacciones.getData().add(series);
+    }
+
+    private void actualizarGraficas(){
+        actualizarGraficaGastos();
+        actualizarGraficaTransacciones();
     }
 
     private void actualizarInterfaz() {

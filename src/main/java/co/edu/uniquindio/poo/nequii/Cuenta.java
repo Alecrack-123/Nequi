@@ -13,6 +13,11 @@ public class Cuenta {
     private static List<Cuenta> cuentas = new ArrayList<>();
     private final List<ObservadorCuenta> observadores = new ArrayList<>();
 
+    //Constructor parcial
+    public Cuenta(String numeroCuenta){
+        this.numeroCuenta = numeroCuenta;
+    }
+
     /**
      * Constructor para la clase Cuenta
      * @param idCuenta ID único de la cuenta
