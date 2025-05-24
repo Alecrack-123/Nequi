@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDate;
 
 public class Transaccion {
     private String idTransaccion;
-    private LocalDate fecha;
+    private String fecha;
     private TipoTransaccion tipo;
     private double monto;
     private String descripcion;
@@ -16,6 +17,7 @@ public class Transaccion {
     private Categoria categoria;
     private EstrategiaTransaccion estrategia;
     private static List<Transaccion> transacciones = new ArrayList<>();
+    private Usuario usuario;
 
     private static final Map<TipoTransaccion, EstrategiaTransaccion> estrategias = Map.of(
             TipoTransaccion.DEPOSITO, new EstrategiaDeposito(),
@@ -49,7 +51,7 @@ public class Transaccion {
                 cuentaOrigen, cuentaDestino, categoria);
 
         this.idTransaccion = idTransaccion;
-        this.fecha = fecha;
+        this.fecha = fecha.toString();
         this.tipo = tipo;
         this.monto = monto;
         this.descripcion = descripcion;
@@ -57,6 +59,50 @@ public class Transaccion {
         this.cuentaDestino = cuentaDestino;
         this.categoria = categoria;
         this.estrategia = obtenerEstrategiaPorTipo(tipo);
+    }
+
+    public void setIdTransaccion(String idTransaccion) {
+        this.idTransaccion = idTransaccion;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha.toString();
+    }
+
+    public void setTipo(TipoTransaccion tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setCuentaOrigen(Cuenta cuentaOrigen) {
+        this.cuentaOrigen = cuentaOrigen;
+    }
+
+    public void setCuentaDestino(Cuenta cuentaDestino) {
+        this.cuentaDestino = cuentaDestino;
+    }
+
+    public EstrategiaTransaccion getEstrategia() {
+        return estrategia;
+    }
+
+    public void setEstrategia(EstrategiaTransaccion estrategia) {
+        this.estrategia = estrategia;
+    }
+
+    public static void setTransacciones(List<Transaccion> transacciones) {
+        Transaccion.transacciones = transacciones;
+    }
+
+    public static Map<TipoTransaccion, EstrategiaTransaccion> getEstrategias() {
+        return estrategias;
     }
 
     /**
@@ -67,7 +113,7 @@ public class Transaccion {
      */
     public Transaccion(TipoTransaccion tipo, double monto, String descripcion) {
         this.idTransaccion = "TRANS-" + System.currentTimeMillis();
-        this.fecha = LocalDate.now();
+        this.fecha = LocalDate.now().toString();
         this.tipo = tipo;
         this.monto = monto;
         this.descripcion = descripcion;
@@ -83,7 +129,7 @@ public class Transaccion {
      */
     public Transaccion(TipoTransaccion tipo, double monto, String descripcion, Categoria categoria) {
         this.idTransaccion = "TRANS-" + System.currentTimeMillis();
-        this.fecha = LocalDate.now();
+        this.fecha = LocalDate.now().toString();
         this.tipo = tipo;
         this.monto = monto;
         this.descripcion = descripcion;
@@ -181,9 +227,7 @@ public class Transaccion {
         return idTransaccion;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
+
 
     public TipoTransaccion getTipo() {
         return tipo;
@@ -228,7 +272,7 @@ public class Transaccion {
     }
 
     public static List<Transaccion> getTransacciones() {
-        return new ArrayList<>(transacciones);
+        return transacciones;
     }
 
     @Override
@@ -243,5 +287,29 @@ public class Transaccion {
                 ", cuentaDestino=" + (cuentaDestino != null ? cuentaDestino.getIdCuenta() : "N/A") +
                 ", categoria=" + (categoria != null ? categoria.getNombre() : "N/A") +
                 '}';
+    }
+
+    // Devuelve el usuario asociado a la transacción (por ejemplo, el titular de la cuenta origen si existe, si no, la cuenta destino)
+    public Usuario getUsuario() {
+        if (cuentaOrigen != null && cuentaOrigen.getUsuario() != null) {
+            return cuentaOrigen.getUsuario();
+        } else if (cuentaDestino != null && cuentaDestino.getUsuario() != null) {
+            return cuentaDestino.getUsuario();
+        } else if (usuario != null) {
+            return usuario;
+        }
+        return null;
+    }
+    public Transaccion(Usuario usuario, TipoTransaccion tipo, double monto, String descripcion) {
+        this.usuario = usuario;
+        this.tipo = tipo;
+        this.monto = monto;
+        this.descripcion = descripcion;
+        this.fecha = java.time.LocalDate.now().toString();
+    }
+
+    public LocalDate getFecha() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFecha'");
     }
 }

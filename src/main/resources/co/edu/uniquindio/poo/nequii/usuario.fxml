@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.poo.nequii.UsuarioController"
+      stylesheets="/css/styles.css"
+      spacing="10">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Header con información del usuario -->
+    <HBox styleClass="header-section" alignment="CENTER" spacing="20">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+        
+        <VBox alignment="CENTER" spacing="5">
+            <Label text="Saldo Disponible" styleClass="label-title"/>
+            <Label fx:id="saldoLabel" text="" styleClass="label-amount"/>
+        </VBox>
+    </HBox>
+
+    <TabPane VBox.vgrow="ALWAYS">
+        <!-- Pestaña de Perfil -->
+        <Tab text="Mi Perfil" closable="false">
+            <VBox spacing="15" styleClass="content-section">
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="nombreField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Correo:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="correoField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Teléfono:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="telefonoField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                    <Label text="Contraseña:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                </GridPane>
+
+                <Button text="Actualizar Perfil" onAction="#actualizarPerfil" styleClass="action-button"/>
+            </VBox>
+        </Tab>
+
+        <!-- Pestaña de Transacciones -->
+        <Tab text="Transacciones" closable="false">
+            <VBox spacing="15" styleClass="content-section">
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Monto:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="montoField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Destinatario:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="destinatarioField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Categoría:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="categoriaField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                </GridPane>
+
+                <HBox spacing="10">
+                    <Button text="Agregar Dinero" onAction="#agregarDinero" styleClass="action-button"/>
+                    <Button text="Retirar Dinero" onAction="#retirarDinero" styleClass="action-button"/>
+                    <Button text="Transferir" onAction="#transferirDinero" styleClass="action-button"/>
+                </HBox>
+
+                <TitledPane text="Historial de Transacciones" expanded="true">
+                    <ListView fx:id="listaTransacciones" VBox.vgrow="ALWAYS"/>
+                </TitledPane>
+            </VBox>
+        </Tab>
+
+        <!-- Pestaña de Presupuestos -->
+        <Tab text="Presupuestos" closable="false">
+            <VBox spacing="15" styleClass="content-section">
+                <HBox spacing="10">
+                    <Button text="Crear Presupuesto" onAction="#crearPresupuesto" styleClass="action-button"/>
+                    <Button text="Modificar Presupuesto" onAction="#modificarPresupuesto" styleClass="action-button"/>
+                    <Button text="Eliminar Presupuesto" onAction="#eliminarPresupuesto" styleClass="action-button"/>
+                </HBox>
+
+                <TitledPane text="Mis Presupuestos" expanded="true">
+                    <ListView fx:id="listaPresupuestos" VBox.vgrow="ALWAYS"/>
+                </TitledPane>
+            </VBox>
+        </Tab>
+
+        <!-- Pestaña de Cuentas Bancarias -->
+        <Tab text="Cuentas Bancarias" closable="false">
+            <VBox spacing="15" styleClass="content-section">
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Banco:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="bancoField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Número de Cuenta:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="numeroCuentaField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Tipo de Cuenta:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <ComboBox fx:id="tipoCuentaComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                </GridPane>
+
+                <HBox spacing="10">
+                    <Button text="Agregar Cuenta" onAction="#agregarCuentaBancaria" styleClass="action-button"/>
+                    <Button text="Eliminar Cuenta" onAction="#eliminarCuentaBancaria" styleClass="action-button"/>
+                </HBox>
+
+                <TitledPane text="Mis Cuentas" expanded="true">
+                    <ListView fx:id="listaCuentas" VBox.vgrow="ALWAYS"/>
+                </TitledPane>
+            </VBox>
+        </Tab>
+    </TabPane>
+</VBox> 

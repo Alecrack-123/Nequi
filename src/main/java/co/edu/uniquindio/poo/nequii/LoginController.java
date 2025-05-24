@@ -1,9 +1,14 @@
 package co.edu.uniquindio.poo.nequii;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class LoginController {
     @FXML private ImageView logoImage;
@@ -30,7 +35,7 @@ public class LoginController {
             -fx-background-radius: 5;
             -fx-cursor: hand;
         """));
-        
+
         loginButton.setOnMouseExited(e -> loginButton.setStyle("""
             -fx-background-color: #4F46E5;
             -fx-text-fill: white;
@@ -114,8 +119,32 @@ public class LoginController {
     }
 
     private void mostrarVentanaUsuario() {
-        // Implementar apertura de ventana de usuario
-        closeCurrentWindow();
+        try {
+            // Cargar la vista del banco
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("usuario.fxml"));
+            Parent root = loader.load();
+
+            // Crear nueva escena
+            Scene scene = new Scene(root);
+
+            // Configurar y mostrar en una nueva ventana
+            Stage stage = new Stage();
+            stage.setTitle("Nequii - Banca Digital");
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.show();
+
+            // Cerrar ventana de login
+            closeCurrentWindow();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(
+                "Error",
+                "Error de sistema",
+                "No se pudo cargar la interfaz de banca: " + e.getMessage(),
+                Alert.AlertType.ERROR
+            );
+        }
     }
 
     private void showAlert(String title, String header, String content, Alert.AlertType type) {

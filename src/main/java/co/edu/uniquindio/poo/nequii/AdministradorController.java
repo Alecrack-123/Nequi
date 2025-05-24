@@ -13,22 +13,22 @@ import java.util.Map;
 import java.util.List;
 
 public class AdministradorController {
-    
+
     private Administrador administrador;
-    
+
     @FXML private TextField idAdminField;
     @FXML private TextField nombreField;
     @FXML private TextField correoField;
     @FXML private TextField contrasenaField;
-    
+
     @FXML private TableView<Usuario> tablaUsuarios;
     @FXML private TextField idUsuarioField;
     @FXML private TextField numeroCuentaField;
-    
+
     @FXML private PieChart graficaGastos;
     @FXML private BarChart<String, Number> graficaTransacciones;
     @FXML private Label saldoPromedioLabel;
-    
+
     public void setAdministrador(Administrador administrador) {
         this.administrador = administrador;
         actualizarInterfaz();
@@ -151,21 +151,21 @@ public class AdministradorController {
         ventanaGraficas.setTitle("Gráficas Estadísticas");
 
         TabPane tabPane = new TabPane();
-        
+
         // Tab para gráfica de gastos
         Tab tabGastos = new Tab("Gastos por Categoría");
         tabGastos.setContent(crearGraficaGastos());
-        
+
         // Tab para gráfica de transacciones
         Tab tabTransacciones = new Tab("Transacciones por Usuario");
         tabTransacciones.setContent(crearGraficaTransacciones());
-        
+
         // Tab para gráfica de saldos
         Tab tabSaldos = new Tab("Saldos por Usuario");
         tabSaldos.setContent(crearGraficaSaldos());
-        
+
         tabPane.getTabs().addAll(tabGastos, tabTransacciones, tabSaldos);
-        
+
         Scene scene = new Scene(tabPane, 800, 600);
         ventanaGraficas.setScene(scene);
         ventanaGraficas.show();
@@ -174,18 +174,18 @@ public class AdministradorController {
     private PieChart crearGraficaGastos() {
         PieChart graficaGastos = new PieChart();
         graficaGastos.setTitle("Distribución de Gastos por Categoría");
-        
+
         Map<String, Double> gastosComunes = administrador.obtenerGastosComunes();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        
-        gastosComunes.forEach((categoria, monto) -> 
+
+        gastosComunes.forEach((categoria, monto) ->
             pieChartData.add(new PieChart.Data(
-                String.format("%s ($%.2f)", categoria, monto), 
+                String.format("%s ($%.2f)", categoria, monto),
                 monto))
         );
-        
+
         graficaGastos.setData(pieChartData);
-        
+
         // Agregar tooltips para mostrar porcentajes
         double total = gastosComunes.values().stream().mapToDouble(Double::doubleValue).sum();
         graficaGastos.getData().forEach(data -> {
@@ -193,81 +193,81 @@ public class AdministradorController {
             Tooltip tooltip = new Tooltip(percentage);
             Tooltip.install(data.getNode(), tooltip);
         });
-        
+
         return graficaGastos;
     }
 
     private BarChart<String, Number> crearGraficaTransacciones() {
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
-        
+
         BarChart<String, Number> graficaTransacciones = new BarChart<>(xAxis, yAxis);
         graficaTransacciones.setTitle("Número de Transacciones por Usuario");
         xAxis.setLabel("Usuario");
         yAxis.setLabel("Número de Transacciones");
-        
+
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Transacciones");
-        
+
         List<Usuario> usuariosTop = administrador.obtenerUsuariosConMasTransacciones();
-        usuariosTop.forEach(usuario -> 
+        usuariosTop.forEach(usuario ->
             series.getData().add(new XYChart.Data<>(
                 usuario.getNombreCompleto(),
                 usuario.consultarTransacciones().size()
             ))
         );
-        
+
         graficaTransacciones.getData().add(series);
-        
+
         // Agregar tooltips con información detallada
         series.getData().forEach(data -> {
             Tooltip tooltip = new Tooltip(
-                String.format("Usuario: %s\nTransacciones: %d", 
-                    data.getXValue(), 
+                String.format("Usuario: %s\nTransacciones: %d",
+                    data.getXValue(),
                     data.getYValue())
             );
             Tooltip.install(data.getNode(), tooltip);
         });
-        
+
         return graficaTransacciones;
     }
 
     private StackedBarChart<String, Number> crearGraficaSaldos() {
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
-        
+
         StackedBarChart<String, Number> graficaSaldos = new StackedBarChart<>(xAxis, yAxis);
         graficaSaldos.setTitle("Distribución de Saldos por Usuario");
         xAxis.setLabel("Usuario");
         yAxis.setLabel("Saldo ($)");
-        
+
         XYChart.Series<String, Number> seriesSaldoDisponible = new XYChart.Series<>();
         seriesSaldoDisponible.setName("Saldo Disponible");
-        
+
         XYChart.Series<String, Number> seriesGastosMensuales = new XYChart.Series<>();
         seriesGastosMensuales.setName("Gastos Mensuales");
-        
+
         administrador.listarUsuarios().forEach(usuario -> {
             // Saldo disponible
             seriesSaldoDisponible.getData().add(
                 new XYChart.Data<>(usuario.getNombreCompleto(), usuario.consultarSaldo())
             );
-            
+
             // Calcular gastos mensuales
             double gastosMensuales = usuario.consultarTransacciones().stream()
                 .filter(t -> t.getTipo() == Transaccion.TipoTransaccion.RETIRO)
                 .mapToDouble(Transaccion::getMonto)
                 .sum();
-                
+
             seriesGastosMensuales.getData().add(
                 new XYChart.Data<>(usuario.getNombreCompleto(), gastosMensuales)
             );
         });
-        
+
         graficaSaldos.getData().addAll(seriesSaldoDisponible, seriesGastosMensuales);
-        
+
         // Agregar tooltips con información detallada
-        graficaSaldos.getData().forEach(series -> 
+        graficaSaldos.getData().forEach(series ->
             series.getData().forEach(data -> {
                 Tooltip tooltip = new Tooltip(
                     String.format("%s\nUsuario: %s\nMonto: $%.2f",
@@ -278,7 +278,7 @@ public class AdministradorController {
                 Tooltip.install(data.getNode(), tooltip);
             })
         );
-        
+
         return graficaSaldos;
     }
 
@@ -287,32 +287,32 @@ public class AdministradorController {
         try {
             Stage ventanaExportar = new Stage();
             ventanaExportar.setTitle("Exportar Gráficas");
-            
+
             VBox contenedor = new VBox(10);
-            
+
             // Botones para cada tipo de exportación
             Button btnExportarPDF = new Button("Exportar a PDF");
             btnExportarPDF.setOnAction(e -> exportarAPDF());
-            
+
             Button btnExportarPNG = new Button("Exportar a PNG");
             btnExportarPNG.setOnAction(e -> exportarAPNG());
-            
+
             Button btnExportarExcel = new Button("Exportar a Excel");
             btnExportarExcel.setOnAction(e -> exportarAExcel());
-            
+
             contenedor.getChildren().addAll(
                 new Label("Seleccione el formato de exportación:"),
                 btnExportarPDF,
                 btnExportarPNG,
                 btnExportarExcel
             );
-            
+
             Scene scene = new Scene(contenedor, 300, 200);
             ventanaExportar.setScene(scene);
             ventanaExportar.show();
-            
+
         } catch (Exception e) {
-            mostrarMensaje("Error al abrir ventana de exportación: " + e.getMessage(), 
+            mostrarMensaje("Error al abrir ventana de exportación: " + e.getMessage(),
                 Alert.AlertType.ERROR);
         }
     }
@@ -338,7 +338,7 @@ public class AdministradorController {
     private void actualizarGraficaGastos() {
         graficaGastos.getData().clear();
         Map<String, Double> gastosComunes = administrador.obtenerGastosComunes();
-        gastosComunes.forEach((categoria, monto) -> 
+        gastosComunes.forEach((categoria, monto) ->
             graficaGastos.getData().add(new PieChart.Data(categoria, monto))
         );
     }
@@ -346,9 +346,9 @@ public class AdministradorController {
     private void actualizarGraficaTransacciones() {
         graficaTransacciones.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
-        administrador.obtenerUsuariosConMasTransacciones().forEach(usuario -> 
+        administrador.obtenerUsuariosConMasTransacciones().forEach(usuario ->
             series.getData().add(new XYChart.Data<>(
-                usuario.getNombreCompleto(), 
+                usuario.getNombreCompleto(),
                 usuario.consultarTransacciones().size()
             ))
         );
@@ -390,13 +390,13 @@ public class AdministradorController {
         // Crear una nueva ventana para mostrar las transacciones
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Transacciones del Usuario");
-        
+
         ListView<Transaccion> listaTransacciones = new ListView<>();
         listaTransacciones.setItems(FXCollections.observableArrayList(transacciones));
-        
+
         dialog.getDialogPane().setContent(listaTransacciones);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        
+
         dialog.showAndWait();
     }
 
@@ -404,22 +404,19 @@ public class AdministradorController {
         // Crear una nueva ventana para mostrar los usuarios top
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Top 10 Usuarios con Más Transacciones");
-        
         ListView<String> listaUsuarios = new ListView<>();
         ObservableList<String> items = FXCollections.observableArrayList();
-        
         for (int i = 0; i < usuariosTop.size(); i++) {
             Usuario u = usuariosTop.get(i);
-            items.add(String.format("%d. %s - %d transacciones", 
-                i + 1, 
-                u.getNombreCompleto(), 
+            items.add(String.format("%d. %s - %d transacciones",
+                i + 1,
+                u.getNombreCompleto(),
                 u.consultarTransacciones().size()));
         }
-        
         listaUsuarios.setItems(items);
         dialog.getDialogPane().setContent(listaUsuarios);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        
+
         dialog.showAndWait();
     }
 }

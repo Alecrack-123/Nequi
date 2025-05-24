@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.poo.nequii.AdministradorController"
+      stylesheets="/css/administrador.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Sección de Gestión de Usuarios -->
+    <TitledPane text="Gestión de Usuarios" expanded="true">
+        <VBox spacing="10">
+            <GridPane hgap="10" vgap="10">
+                <Label text="ID Admin:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="idAdminField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="ID Usuario:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="idUsuarioField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <TextField fx:id="nombreField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                <Label text="Correo:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <TextField fx:id="correoField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                <Label text="Contraseña:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                <TextField fx:id="contrasenaField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                <Label text="Número Cuenta:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                <TextField fx:id="numeroCuentaField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            </GridPane>
+
+            <HBox spacing="10">
+                <Button text="Crear Usuario" onAction="#crearUsuario"/>
+                <Button text="Actualizar Usuario" onAction="#actualizarUsuario"/>
+                <Button text="Eliminar Usuario" onAction="#eliminarUsuario"/>
+                <Button text="Agregar Cuenta" onAction="#agregarCuenta"/>
+                <Button text="Eliminar Cuenta" onAction="#eliminarCuenta"/>
+            </HBox>
+
+            <TableView fx:id="tablaUsuarios" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn text="ID Usuario"/>
+                    <TableColumn text="Nombre"/>
+                    <TableColumn text="Correo"/>
+                    <TableColumn text="Número de Cuenta"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </TitledPane>
+
+    <!-- Sección de Estadísticas -->
+    <TitledPane text="Estadísticas y Gráficas" expanded="true">
+        <VBox spacing="10">
+            <HBox spacing="20" alignment="CENTER">
+                <Label fx:id="saldoPromedioLabel" text="Saldo Promedio: $0.00" styleClass="stats-label"/>
+                <Button text="Actualizar Estadísticas" onAction="#actualizarEstadisticas"/>
+                <Button text="Ver Gráficas" onAction="#mostrarGraficasEstadisticas"/>
+                <Button text="Exportar" onAction="#exportarGraficas"/>
+            </HBox>
+
+            <SplitPane dividerPositions="0.5">
+                <!-- Gráfica de Gastos -->
+                <VBox>
+                    <Label text="Distribución de Gastos" styleClass="chart-title"/>
+                    <PieChart fx:id="graficaGastos" />
+                </VBox>
+
+                <!-- Gráfica de Transacciones -->
+                <VBox>
+                    <Label text="Transacciones por Usuario" styleClass="chart-title"/>
+                    <BarChart fx:id="graficaTransacciones">
+                        <xAxis>
+                            <CategoryAxis label="Usuario"/>
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="Número de Transacciones"/>
+                        </yAxis>
+                    </BarChart>
+                </VBox>
+            </SplitPane>
+
+            <Button text="Ver Transacciones de Usuario" onAction="#mostrarTransaccionesUsuario"/>
+        </VBox>
+    </TitledPane>
+
+</VBox>
