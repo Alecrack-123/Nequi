@@ -1,6 +1,6 @@
 package co.edu.uniquindio.poo.nequii;
 
-
+import co.edu.uniquindio.poo.nequii.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
@@ -94,79 +94,19 @@ public class UsuarioController {
     }
 
     @FXML
-    private void transferirDinero() {
+    private void transferirDinero(Usuario destinatario) {
         try {
-            // Validar que los campos no estén vacíos
-            if (montoField.getText() == null || montoField.getText().trim().isEmpty()) {
-                mostrarMensaje("Por favor ingrese un monto", Alert.AlertType.WARNING);
-                return;
-            }
-
-            if (destinatarioField.getText() == null || destinatarioField.getText().trim().isEmpty()) {
-                mostrarMensaje("Por favor ingrese un destinatario", Alert.AlertType.WARNING);
-                return;
-            }
-
-            // Validar y convertir el monto
             double monto = Double.parseDouble(montoField.getText());
-
-            // Validar monto mínimo y que no sea negativo
-            if (monto <= 0) {
-                mostrarMensaje("El monto debe ser mayor a cero", Alert.AlertType.WARNING);
-                return;
+            if (usuario.transferirDinero(destinatario, monto)) {
+                actualizarInterfaz();
+                mostrarMensaje("Transferencia exitosa", Alert.AlertType.INFORMATION);
+            } else {
+                mostrarMensaje("Saldo insuficiente para la transferencia", Alert.AlertType.WARNING);
             }
-
-            // Validar que tenga saldo suficiente
-            if (monto > usuario.consultarSaldo()) {
-                mostrarMensaje("Saldo insuficiente para realizar la transferencia", Alert.AlertType.WARNING);
-                return;
-            }
-
-            // Buscar el destinatario (esto dependerá de tu implementación del sistema de usuarios)
-            String idDestinatario = destinatarioField.getText();
-            Usuario destinatario = buscarDestinatario(idDestinatario);
-
-            if (destinatario == null) {
-                mostrarMensaje("Destinatario no encontrado", Alert.AlertType.ERROR);
-                return;
-            }
-
-            // Validar que no sea una transferencia a sí mismo
-            if (destinatario.equals(usuario)) {
-                mostrarMensaje("No puedes transferir dinero a ti mismo", Alert.AlertType.WARNING);
-                return;
-            }
-
-            // Mostrar diálogo de confirmación
-            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmacion.setTitle("Confirmar transferencia");
-            confirmacion.setHeaderText("¿Estás seguro de realizar esta transferencia?");
-            confirmacion.setContentText(String.format("Monto: $%.2f\nDestinatario: %s", monto, idDestinatario));
-
-            if (confirmacion.showAndWait().get() == ButtonType.OK) {
-                // Realizar la transferencia
-                if (usuario.transferirDinero(destinatario, monto)) {
-                    actualizarInterfaz();
-                    mostrarMensaje("Transferencia realizada con éxito", Alert.AlertType.INFORMATION);
-                    // Limpiar los campos después de una transferencia exitosa
-                    montoField.clear();
-                    destinatarioField.clear();
-                } else {
-                    mostrarMensaje("Error al realizar la transferencia", Alert.AlertType.ERROR);
-                }
-            }
-
         } catch (NumberFormatException e) {
             mostrarMensaje("Por favor ingrese un monto válido", Alert.AlertType.ERROR);
-        } catch (Exception e) {
-            mostrarMensaje("Error: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
-    private Usuario buscarDestinatario(String idDestinatario) {
-        return null;
-    }
-
 
     // RF-004: Gestión de presupuestos
     @FXML
