@@ -89,7 +89,7 @@ public class TransaccionController {
             }
         });
     }
-
+    //Metodo para agregar una nueva transacción
     @FXML
     private void agregarTransaccion() {
         try {
