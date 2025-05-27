@@ -63,7 +63,7 @@ public class PresupuestoUsuarioController {
             mensajeLabel.setText("Monto inválido");
         }
     }
-
+    //Metodo para modificar un presupuesto
     private void handleModificarPresupuesto() {
         Presupuesto seleccionado = tablaPresupuestos.getSelectionModel().getSelectedItem();
         String montoStr = montoPresupuestoField.getText();
@@ -85,7 +85,7 @@ public class PresupuestoUsuarioController {
             mensajeLabel.setText("Monto inválido");
         }
     }
-
+    //Metodo para eliminar un presupuesto
     private void handleEliminarPresupuesto() {
         Presupuesto seleccionado = tablaPresupuestos.getSelectionModel().getSelectedItem();
         if (seleccionado == null) {
@@ -97,7 +97,7 @@ public class PresupuestoUsuarioController {
         mensajeLabel.setText("Presupuesto eliminado");
         limpiarCamposPresupuesto();
     }
-
+    // Método para mostrar los datos del presupuesto seleccionado en los campos de texto
     private void mostrarPresupuestoEnCampos(Presupuesto presupuesto) {
         if (presupuesto != null) {
             nombrePresupuestoField.setText(presupuesto.getNombre());
