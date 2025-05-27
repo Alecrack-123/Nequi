@@ -35,6 +35,7 @@ public class AdministradorController {
     }
 
     // RF-009: Gestión de usuarios
+    //Metodo para crear un nuevo usuario
     @FXML
     private void crearUsuario() {
         try {
@@ -54,7 +55,7 @@ public class AdministradorController {
             mostrarMensaje("Error al crear usuario: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    //Actualizar un usuario existente
     @FXML
     private void actualizarUsuario() {
         Usuario usuarioSeleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -72,7 +73,7 @@ public class AdministradorController {
             mostrarMensaje("Por favor seleccione un usuario", Alert.AlertType.WARNING);
         }
     }
-
+    //  Metodo para eliminar un usuario
     @FXML
     private void eliminarUsuario() {
         Usuario usuarioSeleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -86,6 +87,8 @@ public class AdministradorController {
     }
 
     // RF-010: Gestión de cuentas
+
+    //Metodo para agregar una cuenta a un usuario
     @FXML
     private void agregarCuenta() {
         Usuario usuarioSeleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -102,7 +105,7 @@ public class AdministradorController {
             mostrarMensaje("Seleccione un usuario e ingrese un número de cuenta", Alert.AlertType.WARNING);
         }
     }
-
+    //Metodo para eliminar una cuenta de un usuario
     @FXML
     private void eliminarCuenta() {
         Usuario usuarioSeleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -116,6 +119,7 @@ public class AdministradorController {
     }
 
     // RF-011: Gestión de transacciones
+    //Metodo para mostrar usuario con mas transacciones
     @FXML
     private void mostrarTransaccionesUsuario() {
         Usuario usuarioSeleccionado = tablaUsuarios.getSelectionModel().getSelectedItem();
@@ -129,6 +133,7 @@ public class AdministradorController {
     }
 
     // RF-012: Estadísticas
+    //Metodo para actualizar las estadísticas
     @FXML
     private void actualizarEstadisticas() {
         // Actualizar gráfica de gastos comunes
@@ -145,6 +150,7 @@ public class AdministradorController {
     }
 
     // RF-013: Gráficas estadísticas
+    //Metodo para mostrar las gráficas de estadísticas
     @FXML
     private void mostrarGraficasEstadisticas() {
         Stage ventanaGraficas = new Stage();
@@ -170,7 +176,7 @@ public class AdministradorController {
         ventanaGraficas.setScene(scene);
         ventanaGraficas.show();
     }
-
+    // Método para crear las gráficas de estadísticas
     private PieChart crearGraficaGastos() {
         PieChart graficaGastos = new PieChart();
         graficaGastos.setTitle("Distribución de Gastos por Categoría");
@@ -186,7 +192,7 @@ public class AdministradorController {
 
         graficaGastos.setData(pieChartData);
 
-        // Agregar tooltips para mostrar porcentajes
+        // Agregamos tooltips para mostrar porcentajes
         double total = gastosComunes.values().stream().mapToDouble(Double::doubleValue).sum();
         graficaGastos.getData().forEach(data -> {
             String percentage = String.format("%.1f%%", (data.getPieValue() / total) * 100);
@@ -196,7 +202,7 @@ public class AdministradorController {
 
         return graficaGastos;
     }
-
+    // Método para crear la gráfica de transacciones
     private BarChart<String, Number> crearGraficaTransacciones() {
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -219,7 +225,7 @@ public class AdministradorController {
 
         graficaTransacciones.getData().add(series);
 
-        // Agregar tooltips con información detallada
+        // Agregamos tooltips con información detallada
         series.getData().forEach(data -> {
             Tooltip tooltip = new Tooltip(
                 String.format("Usuario: %s\nTransacciones: %d",
@@ -281,7 +287,7 @@ public class AdministradorController {
 
         return graficaSaldos;
     }
-
+    //Metodo para exportar gráficas a diferentes formatos
     @FXML
     private void exportarGraficas() {
         try {
@@ -316,7 +322,7 @@ public class AdministradorController {
                 Alert.AlertType.ERROR);
         }
     }
-
+    // Métodos para exportar gráficas a diferentes formatos
     private void exportarAPDF() {
         // Implementar lógica de exportación a PDF
         // Usar biblioteca como iText o PDFBox
