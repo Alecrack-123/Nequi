@@ -811,7 +811,7 @@ public class PresupuestoController implements Initializable {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-
+    //Cierra cesion
     private void handleCerrarSesion() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/edu/uniquindio/poo/nequii/LoginView.fxml"));
