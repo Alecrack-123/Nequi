@@ -77,7 +77,7 @@ public class UsuarioController {
             mostrarMensaje("Por favor ingrese un monto válido", Alert.AlertType.ERROR);
         }
     }
-
+    // Retirar dinero
     @FXML
     private void retirarDinero() {
         try {
@@ -92,7 +92,7 @@ public class UsuarioController {
             mostrarMensaje("Por favor ingrese un monto válido", Alert.AlertType.ERROR);
         }
     }
-
+    // Transferir dinero
     @FXML
     private void transferirDinero(Usuario destinatario) {
         try {
@@ -109,6 +109,7 @@ public class UsuarioController {
     }
 
     // RF-004: Gestión de presupuestos
+    // Metodo para crear un presupuesto
     @FXML
     private void crearPresupuesto() {
         try {
@@ -123,7 +124,7 @@ public class UsuarioController {
             mostrarMensaje("Por favor ingrese un monto válido", Alert.AlertType.ERROR);
         }
     }
-
+    // Metodo para modificar un presupuesto
     @FXML
     private void modificarPresupuesto() {
         try {
@@ -140,7 +141,7 @@ public class UsuarioController {
             mostrarMensaje("Por favor ingrese un monto válido", Alert.AlertType.ERROR);
         }
     }
-
+    // Metodo para eliminar un presupuesto
     @FXML
     private void eliminarPresupuesto() {
         Presupuesto presupuestoSeleccionado = listaPresupuestos.getSelectionModel().getSelectedItem();
@@ -154,6 +155,7 @@ public class UsuarioController {
     }
 
     // RF-005: Gestión de transacciones
+    //Metodo para categorizar una transacción
     @FXML
     private void categorizarTransaccion() {
         Transaccion transaccionSeleccionada = listaTransacciones.getSelectionModel().getSelectedItem();
@@ -168,6 +170,7 @@ public class UsuarioController {
     }
 
     // RF-006: Gestión de cuentas bancarias
+    //Metodo para agregar una cuenta bancaria
     @FXML
     private void agregarCuentaBancaria() {
         try {
@@ -201,7 +204,7 @@ public class UsuarioController {
             mostrarMensaje("Error al agregar cuenta: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    // Metodo para eliminar una cuenta bancaria
     @FXML
     private void eliminarCuentaBancaria() {
         Cuenta cuentaSeleccionada = listaCuentas.getSelectionModel().getSelectedItem();
