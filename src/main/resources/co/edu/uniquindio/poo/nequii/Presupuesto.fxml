@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.poo.nequii.PresupuestoUsuarioController"
+      spacing="15"
+      alignment="CENTER"
+      styleClass="root"
+      style="-fx-padding: 20;"
+      prefWidth="800" prefHeight="600"
+      stylesheets="@estilos.css">
+
+    <Label text="Gestión de Presupuestos" styleClass="titulo-principal"/>
+
+    <VBox spacing="15" alignment="CENTER" prefWidth="700" prefHeight="500" styleClass="panel">
+        <TableView fx:id="tablaPresupuestos" prefHeight="300" prefWidth="600" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="columnaNombrePresupuesto" text="Nombre" prefWidth="200"/>
+                <TableColumn fx:id="columnaMontoPresupuesto" text="Monto" prefWidth="200"/>
+                <TableColumn fx:id="columnaEstadoPresupuesto" text="Estado" prefWidth="200"/>
+            </columns>
+        </TableView>
+
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="nombrePresupuestoField" promptText="Nombre del Presupuesto" prefWidth="200" styleClass="text-field"/>
+            <TextField fx:id="montoPresupuestoField" promptText="Monto" prefWidth="150" styleClass="text-field"/>
+            <Button fx:id="crearPresupuestoButton" text="Crear" styleClass="boton-exito"/>
+            <Button fx:id="modificarPresupuestoButton" text="Modificar" styleClass="boton-principal"/>
+            <Button fx:id="eliminarPresupuestoButton" text="Eliminar" styleClass="boton-peligro"/>
+        </HBox>
+
+        <Label fx:id="mensajeLabel" styleClass="label-error"/>
+    </VBox>
+</VBox>
