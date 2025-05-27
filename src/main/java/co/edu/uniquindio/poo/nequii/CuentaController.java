@@ -55,7 +55,7 @@ public class CuentaController {
             }
         });
     }
-
+    // Método para cargar las cuentas desde el archivo
     @FXML
     private void guardarCuenta() {
         try {
@@ -103,7 +103,7 @@ public class CuentaController {
             mostrarAlerta("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    // Método para eliminar una cuenta
     @FXML
     private void eliminarCuenta() {
         Cuenta cuentaSeleccionada = tablaCuentas.getSelectionModel().getSelectedItem();
@@ -143,7 +143,7 @@ public class CuentaController {
         cbUsuario.setValue(cuenta.getUsuario());
         txtSaldo.setText(String.valueOf(cuenta.getSaldo()));
     }
-
+    //Validación de campos requeridos
     private boolean validarCamposRequeridos() {
         return !txtIdCuenta.getText().isEmpty() &&
                 !txtBanco.getText().isEmpty() &&
